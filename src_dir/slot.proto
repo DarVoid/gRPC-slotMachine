@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+
+service Greeter {
+    // Sends a greeting
+    rpc CreateGame (CreateGameRequest) returns (NewGameReply) {}
+  }
+  
+  // The request message containing the user's name.
+  message CreateGameRequest {
+    int32 winChance = 1;
+    int32 totalJogadas = 2;
+  }
+  
+  // The response message containing the greetings
+  message NewGameReply {
+    int32 gameId = 1;
+  }
