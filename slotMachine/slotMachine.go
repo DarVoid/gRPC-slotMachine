@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"math/big"
 	"time"
+
+	guuid "github.com/google/uuid"
 )
 
 //instances of players
@@ -24,6 +26,7 @@ type Game struct {
 	perc      int
 	totalWins int
 	last      int
+	ID        string
 }
 
 //returns some of the fields as string (private)
@@ -44,6 +47,7 @@ func Setup(numberPlayers int, chanceWinning int) (*Game, error) {
 	game.jogadas = numero
 	game.perc = chanceWinning
 	game.totalWins = 0
+	game.ID = guuid.New().String()
 	return game, nil
 
 }
@@ -77,7 +81,7 @@ func (g *Game) Play(p Person) (bool, error) {
 
 //returns a few info about the game
 func (g Game) CheckGameState() string {
-	return fmt.Sprintf("\nTotal de Jogadas: %v\nWinning chance: %v\nTotal Wins: %v\nLast Element: %v\n", g.jogadas, g.perc, g.totalWins, g.last)
+	return fmt.Sprintf("\nGame ID: %v\nTotal de Jogadas: %v\nWinning chance: %v\nTotal Wins: %v\nLast Element: %v\n", g.ID, g.jogadas, g.perc, g.totalWins, g.last)
 }
 
 //returns numbeer of current wins
