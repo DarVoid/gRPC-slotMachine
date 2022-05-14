@@ -14,9 +14,9 @@ func main() {
 		log.Fatalf("Failed to listen on pport 9000: %v\n", err)
 	}
 
-	s := game.Server()
+	s := game.Server{}
 	grpcServer := grpc.NewServer()
-	game.RegisterCreateGameServer(grpcServer, &s)
+	game.RegisterGameServiceServer(grpcServer, &s)
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve:  %v\n", err)
 	}

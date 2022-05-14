@@ -1,18 +1,19 @@
 syntax = "proto3";
 package game;
 
-service Greeter {
-    // Sends a greeting
-    rpc CreateGame (CreateGameRequest) returns (NewGameReply) {}
-  }
-  
-  // The request message containing the user's name.
+
+  // The request message containing the initial values
   message CreateGameRequest {
     int32 winChance = 1;
     int32 totalJogadas = 2;
   }
   
-  // The response message containing the greetings
+  // The response message containing the game ID
   message NewGameReply {
     int32 gameId = 1;
   }
+  service GameService {
+    // Create a Game
+    rpc CreateGame (CreateGameRequest) returns (NewGameReply) {}
+  }
+  
