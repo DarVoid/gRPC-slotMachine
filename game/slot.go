@@ -12,8 +12,8 @@ type Server struct {
 }
 
 func (s *Server) CreateGame(ctx context.Context, newGame *CreateGameRequest) (*NewGameReply, error) {
-	log.Printf("Received message from client: Winchance:%v, totalJogadas:%v\n", newGame.WinChance, newGame.TotalJogadas)
-	slot, err := slotMachine.Setup(int(newGame.TotalJogadas), int(newGame.WinChance))
+	log.Printf("Received message from client: Winchance:%v, totalJogadas:%v\n", newGame.GetWinChance(), newGame.GetTotalJogadas())
+	slot, err := slotMachine.Setup(int(newGame.GetTotalJogadas()), int(newGame.GetWinChance()))
 	if err != nil {
 		log.Fatalf("Error creating Game: %v\n", err)
 	}
