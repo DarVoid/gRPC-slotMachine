@@ -1,5 +1,5 @@
 syntax = "proto3";
-
+package game;
 
 service Greeter {
     // Sends a greeting

@@ -1,2 +1,2 @@
 
-protoc --proto_path=<whereprotoIsFolder> --go_out=<whereGoPbFileGoesToFolder> --go_opt=M<name>.proto=./<folderName> <name>.proto
+protoc --proto_path=<whereprotoIsFolder> --go_out=<whereGoPbFileGoesToFolder> --go_opt=M<name>.proto=./<folderNameGoesTo> <name>.proto
