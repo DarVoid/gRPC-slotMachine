@@ -1,0 +1,26 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Game{
+  id: ID!
+  isFinished: Boolean!
+  createdAt: String!
+}
+
+input NewGame {
+  winChance: Int!
+  totalJogadas: Int!
+}
+
+input GameId {
+  id: String!
+}
+
+type Mutation{
+  createNewGame(input: NewGame!): Game! 
+}
+type Query{
+  games: [Game!]
+  game(input: GameId) : Game!
+}

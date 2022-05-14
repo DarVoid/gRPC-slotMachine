@@ -1,1 +1,7 @@
-protoc --proto_path=src_dir --go_out=game --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mslot.proto=. slot.proto  
+Protos: 
+
+    protoc --proto_path=src_dir --go_out=game --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mslot.proto=. slot.proto  
+
+graphQl: 
+    go get github.com/99designs/gqlgen     
+    go run github.com/99designs/gqlgen generate
