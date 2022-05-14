@@ -1,2 +1,1 @@
-
-protoc --proto_path=<whereprotoIsFolder> --go_out=<whereGoPbFileGoesToFolder> --go_opt=M<name>.proto=./<folderNameGoesTo> <name>.proto
+protoc --proto_path=src_dir --go_out=game --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mslot.proto=. slot.proto  

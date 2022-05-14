@@ -1,6 +1,5 @@
 syntax = "proto3";
-package game;
-
+option go_package = "/game";
 
   // The request message containing the initial values
   message CreateGameRequest {
