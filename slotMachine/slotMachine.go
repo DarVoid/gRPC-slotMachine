@@ -10,6 +10,8 @@ import (
 	guuid "github.com/google/uuid"
 )
 
+var games map[string]*Game
+
 //instances of players
 type Person struct {
 	Name       string
@@ -48,6 +50,7 @@ func Setup(numberPlayers int, chanceWinning int) (*Game, error) {
 	game.perc = chanceWinning
 	game.totalWins = 0
 	game.ID = guuid.New().String()
+	games[game.ID] = game
 	return game, nil
 
 }
@@ -87,4 +90,21 @@ func (g Game) CheckGameState() string {
 //returns numbeer of current wins
 func (g Game) GetTotalVictories() int {
 	return g.totalWins
+}
+
+func ListGamesInMemory() ([]Game, error) {
+
+	gameArray := []Game{}
+
+	for key, value := range games {
+		fmt.Println("Key:", key, "Value:", value)
+		gameArray = append(gameArray, *value)
+	}
+	return gameArray, nil
+}
+
+func ShowGame(id string) (Game, error) {
+
+	game := games[id]
+	return *game, nil
 }
