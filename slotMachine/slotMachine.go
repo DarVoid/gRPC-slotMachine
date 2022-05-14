@@ -72,7 +72,7 @@ func (g *Game) Play(p Person) (bool, error) {
 	g.last++
 	if g.last > len(g.entries) {
 		g.last--
-		return false, errors.New("Numero de Jogadas excedidas")
+		return false, errors.New("numero de jogadas excedidas")
 	} else {
 		g.entries[g.last-1] = p
 	}
