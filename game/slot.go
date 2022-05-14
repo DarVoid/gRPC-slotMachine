@@ -18,5 +18,5 @@ func (s *Server) CreateGame(ctx context.Context, newGame *CreateGameRequest) (*N
 		log.Fatalf("Error creating Game: %v\n", err)
 	}
 	fmt.Printf("%v\n", slot.CheckGameState())
-	return &NewGameReply{GameId: 1}, nil
+	return &NewGameReply{GameId: slot.ID}, nil
 }

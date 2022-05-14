@@ -9,7 +9,7 @@ option go_package = "/game";
   
   // The response message containing the game ID
   message NewGameReply {
-    int32 gameId = 1;
+    string gameId = 1;
   }
   service GameService {
     // Create a Game

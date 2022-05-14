@@ -1,0 +1,5 @@
+grpcurl --plaintext localhost:9000 list GameService
+grpcurl --plaintext localhost:9000 list
+grpcurl --plaintext localhost:9000 describe GameService
+
+grpcurl --plaintext -d '{\"winChance\":20,\"totalJogadas\":200}' localhost:9000 GameService.CreateGame
