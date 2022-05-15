@@ -79,6 +79,7 @@ func (g *Game) Play(p Person) (bool, error) {
 	} else {
 		g.entries[g.last-1] = p
 	}
+	g.CheckGameState()
 	return p.reward, nil
 }
 

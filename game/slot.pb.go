@@ -124,6 +124,238 @@ func (x *NewGameReply) GetGameId() string {
 	return ""
 }
 
+// The request
+type ShowGameRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GameId string `protobuf:"bytes,1,opt,name=gameId,proto3" json:"gameId,omitempty"`
+}
+
+func (x *ShowGameRequest) Reset() {
+	*x = ShowGameRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_slot_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ShowGameRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ShowGameRequest) ProtoMessage() {}
+
+func (x *ShowGameRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_slot_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ShowGameRequest.ProtoReflect.Descriptor instead.
+func (*ShowGameRequest) Descriptor() ([]byte, []int) {
+	return file_slot_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *ShowGameRequest) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+// The response message containing a boolean saying whether the game exists in memory or not
+type GameExistsReply struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Exists bool `protobuf:"varint,1,opt,name=exists,proto3" json:"exists,omitempty"`
+}
+
+func (x *GameExistsReply) Reset() {
+	*x = GameExistsReply{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_slot_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GameExistsReply) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GameExistsReply) ProtoMessage() {}
+
+func (x *GameExistsReply) ProtoReflect() protoreflect.Message {
+	mi := &file_slot_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GameExistsReply.ProtoReflect.Descriptor instead.
+func (*GameExistsReply) Descriptor() ([]byte, []int) {
+	return file_slot_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GameExistsReply) GetExists() bool {
+	if x != nil {
+		return x.Exists
+	}
+	return false
+}
+
+// The request
+type PlayRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GameId     string `protobuf:"bytes,1,opt,name=gameId,proto3" json:"gameId,omitempty"`
+	Name       string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	LuckyQuote string `protobuf:"bytes,3,opt,name=luckyQuote,proto3" json:"luckyQuote,omitempty"`
+}
+
+func (x *PlayRequest) Reset() {
+	*x = PlayRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_slot_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PlayRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PlayRequest) ProtoMessage() {}
+
+func (x *PlayRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_slot_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PlayRequest.ProtoReflect.Descriptor instead.
+func (*PlayRequest) Descriptor() ([]byte, []int) {
+	return file_slot_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *PlayRequest) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *PlayRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PlayRequest) GetLuckyQuote() string {
+	if x != nil {
+		return x.LuckyQuote
+	}
+	return ""
+}
+
+// The response message containing a boolean saying whether the game exists in memory or not
+type ResultPlayRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	GameId     string `protobuf:"bytes,1,opt,name=gameId,proto3" json:"gameId,omitempty"`
+	Name       string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	LuckyQuote string `protobuf:"bytes,3,opt,name=luckyQuote,proto3" json:"luckyQuote,omitempty"`
+	Reward     bool   `protobuf:"varint,4,opt,name=reward,proto3" json:"reward,omitempty"`
+}
+
+func (x *ResultPlayRequest) Reset() {
+	*x = ResultPlayRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_slot_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *ResultPlayRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ResultPlayRequest) ProtoMessage() {}
+
+func (x *ResultPlayRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_slot_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ResultPlayRequest.ProtoReflect.Descriptor instead.
+func (*ResultPlayRequest) Descriptor() ([]byte, []int) {
+	return file_slot_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *ResultPlayRequest) GetGameId() string {
+	if x != nil {
+		return x.GameId
+	}
+	return ""
+}
+
+func (x *ResultPlayRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *ResultPlayRequest) GetLuckyQuote() string {
+	if x != nil {
+		return x.LuckyQuote
+	}
+	return ""
+}
+
+func (x *ResultPlayRequest) GetReward() bool {
+	if x != nil {
+		return x.Reward
+	}
+	return false
+}
+
 var File_slot_proto protoreflect.FileDescriptor
 
 var file_slot_proto_rawDesc = []byte{
@@ -135,12 +367,37 @@ var file_slot_proto_rawDesc = []byte{
 	0x02, 0x20, 0x01, 0x28, 0x05, 0x52, 0x0c, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x4a, 0x6f, 0x67, 0x61,
 	0x64, 0x61, 0x73, 0x22, 0x26, 0x0a, 0x0c, 0x4e, 0x65, 0x77, 0x47, 0x61, 0x6d, 0x65, 0x52, 0x65,
 	0x70, 0x6c, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x32, 0x40, 0x0a, 0x0b, 0x47,
-	0x61, 0x6d, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x31, 0x0a, 0x0a, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x47, 0x61, 0x6d, 0x65, 0x12, 0x12, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74,
-	0x65, 0x47, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x4e,
-	0x65, 0x77, 0x47, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x42, 0x07, 0x5a,
-	0x05, 0x2f, 0x67, 0x61, 0x6d, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x01, 0x28, 0x09, 0x52, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x22, 0x29, 0x0a, 0x0f, 0x53,
+	0x68, 0x6f, 0x77, 0x47, 0x61, 0x6d, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16,
+	0x0a, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
+	0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x22, 0x29, 0x0a, 0x0f, 0x47, 0x61, 0x6d, 0x65, 0x45, 0x78,
+	0x69, 0x73, 0x74, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x65, 0x78, 0x69,
+	0x73, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x65, 0x78, 0x69, 0x73, 0x74,
+	0x73, 0x22, 0x59, 0x0a, 0x0b, 0x50, 0x6c, 0x61, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x16, 0x0a, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1e, 0x0a, 0x0a,
+	0x6c, 0x75, 0x63, 0x6b, 0x79, 0x51, 0x75, 0x6f, 0x74, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0a, 0x6c, 0x75, 0x63, 0x6b, 0x79, 0x51, 0x75, 0x6f, 0x74, 0x65, 0x22, 0x77, 0x0a, 0x11,
+	0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x50, 0x6c, 0x61, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x16, 0x0a, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1e, 0x0a,
+	0x0a, 0x6c, 0x75, 0x63, 0x6b, 0x79, 0x51, 0x75, 0x6f, 0x74, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x0a, 0x6c, 0x75, 0x63, 0x6b, 0x79, 0x51, 0x75, 0x6f, 0x74, 0x65, 0x12, 0x16, 0x0a,
+	0x06, 0x72, 0x65, 0x77, 0x61, 0x72, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x72,
+	0x65, 0x77, 0x61, 0x72, 0x64, 0x32, 0xa4, 0x01, 0x0a, 0x0b, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x65,
+	0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x31, 0x0a, 0x0a, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x47,
+	0x61, 0x6d, 0x65, 0x12, 0x12, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x47, 0x61, 0x6d, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0d, 0x2e, 0x4e, 0x65, 0x77, 0x47, 0x61, 0x6d,
+	0x65, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x12, 0x32, 0x0a, 0x0a, 0x47, 0x61, 0x6d, 0x65,
+	0x45, 0x78, 0x69, 0x73, 0x74, 0x73, 0x12, 0x10, 0x2e, 0x53, 0x68, 0x6f, 0x77, 0x47, 0x61, 0x6d,
+	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x47, 0x61, 0x6d, 0x65, 0x45,
+	0x78, 0x69, 0x73, 0x74, 0x73, 0x52, 0x65, 0x70, 0x6c, 0x79, 0x22, 0x00, 0x12, 0x2e, 0x0a, 0x08,
+	0x50, 0x6c, 0x61, 0x79, 0x47, 0x61, 0x6d, 0x65, 0x12, 0x0c, 0x2e, 0x50, 0x6c, 0x61, 0x79, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x12, 0x2e, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x50,
+	0x6c, 0x61, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x00, 0x42, 0x07, 0x5a, 0x05,
+	0x2f, 0x67, 0x61, 0x6d, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -155,16 +412,24 @@ func file_slot_proto_rawDescGZIP() []byte {
 	return file_slot_proto_rawDescData
 }
 
-var file_slot_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_slot_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
 var file_slot_proto_goTypes = []interface{}{
 	(*CreateGameRequest)(nil), // 0: CreateGameRequest
 	(*NewGameReply)(nil),      // 1: NewGameReply
+	(*ShowGameRequest)(nil),   // 2: ShowGameRequest
+	(*GameExistsReply)(nil),   // 3: GameExistsReply
+	(*PlayRequest)(nil),       // 4: PlayRequest
+	(*ResultPlayRequest)(nil), // 5: ResultPlayRequest
 }
 var file_slot_proto_depIdxs = []int32{
 	0, // 0: GameService.CreateGame:input_type -> CreateGameRequest
-	1, // 1: GameService.CreateGame:output_type -> NewGameReply
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
+	2, // 1: GameService.GameExists:input_type -> ShowGameRequest
+	4, // 2: GameService.PlayGame:input_type -> PlayRequest
+	1, // 3: GameService.CreateGame:output_type -> NewGameReply
+	3, // 4: GameService.GameExists:output_type -> GameExistsReply
+	5, // 5: GameService.PlayGame:output_type -> ResultPlayRequest
+	3, // [3:6] is the sub-list for method output_type
+	0, // [0:3] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name
 	0, // [0:0] is the sub-list for extension extendee
 	0, // [0:0] is the sub-list for field type_name
@@ -200,6 +465,54 @@ func file_slot_proto_init() {
 				return nil
 			}
 		}
+		file_slot_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ShowGameRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_slot_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GameExistsReply); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_slot_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PlayRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_slot_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*ResultPlayRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -207,7 +520,7 @@ func file_slot_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_slot_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

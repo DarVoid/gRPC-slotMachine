@@ -24,6 +24,8 @@ const _ = grpc.SupportPackageIsVersion7
 type GameServiceClient interface {
 	// Create a Game
 	CreateGame(ctx context.Context, in *CreateGameRequest, opts ...grpc.CallOption) (*NewGameReply, error)
+	GameExists(ctx context.Context, in *ShowGameRequest, opts ...grpc.CallOption) (*GameExistsReply, error)
+	PlayGame(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*ResultPlayRequest, error)
 }
 
 type gameServiceClient struct {
@@ -43,12 +45,32 @@ func (c *gameServiceClient) CreateGame(ctx context.Context, in *CreateGameReques
 	return out, nil
 }
 
+func (c *gameServiceClient) GameExists(ctx context.Context, in *ShowGameRequest, opts ...grpc.CallOption) (*GameExistsReply, error) {
+	out := new(GameExistsReply)
+	err := c.cc.Invoke(ctx, "/GameService/GameExists", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gameServiceClient) PlayGame(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*ResultPlayRequest, error) {
+	out := new(ResultPlayRequest)
+	err := c.cc.Invoke(ctx, "/GameService/PlayGame", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GameServiceServer is the server API for GameService service.
 // All implementations should embed UnimplementedGameServiceServer
 // for forward compatibility
 type GameServiceServer interface {
 	// Create a Game
 	CreateGame(context.Context, *CreateGameRequest) (*NewGameReply, error)
+	GameExists(context.Context, *ShowGameRequest) (*GameExistsReply, error)
+	PlayGame(context.Context, *PlayRequest) (*ResultPlayRequest, error)
 }
 
 // UnimplementedGameServiceServer should be embedded to have forward compatible implementations.
@@ -57,6 +79,12 @@ type UnimplementedGameServiceServer struct {
 
 func (UnimplementedGameServiceServer) CreateGame(context.Context, *CreateGameRequest) (*NewGameReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateGame not implemented")
+}
+func (UnimplementedGameServiceServer) GameExists(context.Context, *ShowGameRequest) (*GameExistsReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GameExists not implemented")
+}
+func (UnimplementedGameServiceServer) PlayGame(context.Context, *PlayRequest) (*ResultPlayRequest, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlayGame not implemented")
 }
 
 // UnsafeGameServiceServer may be embedded to opt out of forward compatibility for this service.
@@ -88,6 +116,42 @@ func _GameService_CreateGame_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GameService_GameExists_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShowGameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServiceServer).GameExists(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/GameService/GameExists",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServiceServer).GameExists(ctx, req.(*ShowGameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GameService_PlayGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PlayRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GameServiceServer).PlayGame(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/GameService/PlayGame",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GameServiceServer).PlayGame(ctx, req.(*PlayRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GameService_ServiceDesc is the grpc.ServiceDesc for GameService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +162,14 @@ var GameService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateGame",
 			Handler:    _GameService_CreateGame_Handler,
+		},
+		{
+			MethodName: "GameExists",
+			Handler:    _GameService_GameExists_Handler,
+		},
+		{
+			MethodName: "PlayGame",
+			Handler:    _GameService_PlayGame_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

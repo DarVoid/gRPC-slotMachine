@@ -11,8 +11,39 @@ option go_package = "/game";
   message NewGameReply {
     string gameId = 1;
   }
+  
+
+  // The request
+  message ShowGameRequest {
+    string gameId = 1;
+  }
+  
+  // The response message containing a boolean saying whether the game exists in memory or not
+  message GameExistsReply {
+    bool exists = 1;
+  }
+
+
+  // The request
+  message PlayRequest {
+    string gameId = 1;
+    string name = 2;
+    string luckyQuote = 3;
+  }
+  
+  // The response message containing a boolean saying whether the game exists in memory or not
+  message ResultPlayRequest {
+    string gameId = 1;
+    string name = 2;
+    string luckyQuote = 3;
+    bool reward = 4;
+  }
+
+
   service GameService {
     // Create a Game
     rpc CreateGame (CreateGameRequest) returns (NewGameReply) {}
+    rpc GameExists (ShowGameRequest) returns (GameExistsReply) {}
+    rpc PlayGame (PlayRequest) returns (ResultPlayRequest) {}
   }
   
