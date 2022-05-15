@@ -13,7 +13,7 @@ const options = {
 var packageDefinition = protoLoader.loadSync(PROTO_PATH, options);
 
 const GameService = grpc.loadPackageDefinition(packageDefinition).GameService;
-console.log(GameService.service.CreateGame.requestType)
+
 const client = new GameService(
     "localhost:9000",
     grpc.credentials.createInsecure()

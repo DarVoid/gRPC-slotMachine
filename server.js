@@ -15,15 +15,16 @@ const requestListener = function (req, res) {
         case "POST":
             client.CreateGame(
                 {
-                    "WinChance": 20, 
-                    "TotalJogadas": 200,
+                    winChance: 20, 
+                    totalJogadas: 200,
                 },
                 (error, game) => {
                     if (error) throw error;
-                    res.end({
+                    res.write(JSON.stringify({
                         data: game,
                         msg: "Successfully created a game.",
-                    });
+                    }));
+                    res.end();
                 }
             );
             break;

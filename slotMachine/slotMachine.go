@@ -50,7 +50,6 @@ func Setup(numberPlayers int, chanceWinning int) (*Game, error) {
 	game.perc = chanceWinning
 	game.totalWins = 0
 	game.ID = guuid.New().String()
-	games[game.ID] = game
 	return game, nil
 
 }
