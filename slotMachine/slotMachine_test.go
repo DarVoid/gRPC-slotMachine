@@ -14,9 +14,9 @@ type indexTest struct {
 }
 
 var indexTests = []indexTest{
-	{100, 10, "\nTotal de Jogadas: 100\nWinning chance: 10\nTotal Wins: 0\nLast Element: 0\n", "setup 10%"},
-	{200, 30, "\nTotal de Jogadas: 200\nWinning chance: 30\nTotal Wins: 0\nLast Element: 0\n", "setup 30%"},
-	{300, 20, "\nTotal de Jogadas: 300\nWinning chance: 20\nTotal Wins: 0\nLast Element: 0\n", "setup 20%"},
+	{100, 10, "Total de Jogadas: 100\nWinning chance: 10\nTotal Wins: 0\nLast Element: 0\n", "setup 10%"},
+	{200, 30, "Total de Jogadas: 200\nWinning chance: 30\nTotal Wins: 0\nLast Element: 0\n", "setup 30%"},
+	{300, 20, "Total de Jogadas: 300\nWinning chance: 20\nTotal Wins: 0\nLast Element: 0\n", "setup 20%"},
 }
 
 //tests Game startup
@@ -29,7 +29,7 @@ func TestSetup(t *testing.T) {
 				t.Errorf("Failed to setup: %v\n", test.name)
 
 			}
-			result := game.CheckGameState()
+			result := game.OutputCheckGameState()
 			if result != test.expected {
 				t.Errorf("Expected result not given for test: %v\n", test.name)
 			}

@@ -10,8 +10,6 @@ import (
 	guuid "github.com/google/uuid"
 )
 
-var games map[string]*Game
-
 //instances of players
 type Person struct {
 	Name       string
@@ -31,26 +29,29 @@ type Game struct {
 	ID        string
 }
 
-//returns some of the fields as string (private)
-func (p Person) toString() string {
+//returns some of the fields as string
+func (p Person) ToString() string {
 	return fmt.Sprintf("Name: %v\nLast Played: %v\nLuckyQuote: %v\n", p.Name, p.LastPlayed, p.LuckyQuote)
 }
+
+var Games = make(map[string]*Game)
 
 //starts a new game with no players
 func Setup(numberPlayers int, chanceWinning int) (*Game, error) {
 	if chanceWinning > 100 {
-		return nil, fmt.Errorf("Learn Math please")
+		return nil, fmt.Errorf("learn math please")
 	}
 	numero := 100
 	if numberPlayers >= 100 {
 		numero = numberPlayers
 	}
-	game := &Game{entries: make([]Person, numero)}
+	game := Game{entries: make([]Person, numero)}
+	game.ID = guuid.New().String()
 	game.jogadas = numero
 	game.perc = chanceWinning
-	game.totalWins = 0
-	game.ID = guuid.New().String()
-	return game, nil
+
+	Games[game.ID] = &game
+	return &game, nil
 
 }
 
@@ -86,6 +87,11 @@ func (g Game) CheckGameState() string {
 	return fmt.Sprintf("\nGame ID: %v\nTotal de Jogadas: %v\nWinning chance: %v\nTotal Wins: %v\nLast Element: %v\n", g.ID, g.jogadas, g.perc, g.totalWins, g.last)
 }
 
+//returns a few info about the game
+func (g Game) OutputCheckGameState() string {
+	return fmt.Sprintf("Total de Jogadas: %v\nWinning chance: %v\nTotal Wins: %v\nLast Element: %v\n", g.jogadas, g.perc, g.totalWins, g.last)
+}
+
 //returns numbeer of current wins
 func (g Game) GetTotalVictories() int {
 	return g.totalWins
@@ -95,7 +101,7 @@ func ListGamesInMemory() ([]Game, error) {
 
 	gameArray := []Game{}
 
-	for key, value := range games {
+	for key, value := range Games {
 		fmt.Println("Key:", key, "Value:", value)
 		gameArray = append(gameArray, *value)
 	}
@@ -104,6 +110,6 @@ func ListGamesInMemory() ([]Game, error) {
 
 func ShowGame(id string) (Game, error) {
 
-	game := games[id]
+	game := Games[id]
 	return *game, nil
 }
