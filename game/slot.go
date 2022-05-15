@@ -1,6 +1,7 @@
 package game
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -25,6 +26,10 @@ func (s *Server) CreateGame(ctx context.Context, newGame *CreateGameRequest) (*N
 func (s *Server) PlayGame(ctx context.Context, play *PlayRequest) (*ResultPlayRequest, error) {
 	log.Printf("Received message from client: GameId: %v, Player Name:%v, Lucky Quote:%v\n", play.GetGameId(), play.GetName(), play.GetLuckyQuote())
 	now := time.Now()
+	_, found := slotMachine.Games[play.GetGameId()]
+	if !found {
+		return nil, errors.New("game not found")
+	}
 	rward, err := slotMachine.Games[play.GetGameId()].Play(
 		slotMachine.Person{Name: play.GetName(), LuckyQuote: play.GetLuckyQuote(), LastPlayed: now})
 	log.Printf("Game State: %v\n", slotMachine.Games[play.GetGameId()].CheckGameState())
@@ -38,11 +43,11 @@ func (s *Server) PlayGame(ctx context.Context, play *PlayRequest) (*ResultPlayRe
 }
 func (s *Server) GameExists(ctx context.Context, req *ShowGameRequest) (*GameExistsReply, error) {
 	log.Printf("Received message from client: GameId: %v\n", req.GetGameId())
-	err := slotMachine.Games[req.GetGameId()]
+	_, found := slotMachine.Games[req.GetGameId()]
 
-	if err != nil {
-		return &GameExistsReply{Exists: false}, nil
+	if found {
+		return &GameExistsReply{Exists: true}, nil
 	}
 
-	return &GameExistsReply{Exists: true}, nil
+	return &GameExistsReply{Exists: false}, nil
 }
