@@ -20,7 +20,7 @@ export class SlotMachineComponent implements OnInit {
   numeroJogadas: number;
   percentagemWin: number;
   isOnPlay: boolean;
-  constructor(private _slot: SlotsService,private _matDialog: MatDialog,) {
+  constructor(private _slot: SlotsService, private _matDialog: MatDialog,) {
     this.guyName = '';
     this.quote = '';
     this.win = false;
@@ -48,9 +48,11 @@ export class SlotMachineComponent implements OnInit {
     this._slot.playGame(this.gameId, this.guyName, this.quote).pipe(take(1)).subscribe((res) => {
       console.log(res);
       this._matDialog.open(VictoryComponent, {
-        autoFocus: false,
-        data     : res.data
-    })
+        autoFocus: true,
+        data: res.data,
+        width: "50vh",
+        height: "50vh"
+      })
     });
 
   }
