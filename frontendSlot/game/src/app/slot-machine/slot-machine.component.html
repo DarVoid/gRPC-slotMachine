@@ -1,6 +1,7 @@
 <div *ngIf="gameId && !isOnPlay; else menuInicial">
   <div class="centered">
     <button (click)="play()" class="big_red_button_circ" mat-button color="primary">DING DING DING</button>
+    <app-victory [data]="data"> </app-victory>
   </div>
 
 </div>
