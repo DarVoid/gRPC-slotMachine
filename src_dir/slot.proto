@@ -43,7 +43,9 @@ option go_package = "/game";
   service GameService {
     // Create a Game
     rpc CreateGame (CreateGameRequest) returns (NewGameReply) {}
+    // Check if a game exists
     rpc GameExists (ShowGameRequest) returns (GameExistsReply) {}
+    // Play an existing game
     rpc PlayGame (PlayRequest) returns (ResultPlayRequest) {}
   }
   

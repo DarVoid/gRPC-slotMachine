@@ -4,7 +4,6 @@ the aim of this project was to use gRPC to deal with all the logic and having a 
 
 I'll first start by using an express server. and then a graphQL node server.
 
-There's also an Angular application just for demo purposes.
 # Install node packages
 
     > npm install 
@@ -16,10 +15,3 @@ run gRPC server:
 run node gateway server:
 
  > node .\server.js 
-
-run angular app (if present):
- > cd .\frontendSlot\game\
- > ng serve
-
-
-
