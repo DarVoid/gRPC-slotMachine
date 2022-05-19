@@ -10,14 +10,14 @@ I'll first start by using an express server. and then a graphQL node server.
 
 # Running the project:
 run gRPC server:
- > go run .\services\serverSimple.go 
+    > go run .\services\serverSimple.go 
 
 ## run node gateway server:
 
- > node .\server.js 
+    > node .\server.js 
 
 
 OR 
 ## run gorilla gateway server:
 
- > go run .\gatewayGoserver\gateway.go
+    > go run .\gatewayGoserver\gateway.go
