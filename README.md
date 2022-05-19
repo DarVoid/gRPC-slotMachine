@@ -12,6 +12,12 @@ I'll first start by using an express server. and then a graphQL node server.
 run gRPC server:
  > go run .\services\serverSimple.go 
 
-run node gateway server:
+## run node gateway server:
 
  > node .\server.js 
+
+
+OR 
+## run gorilla gateway server:
+
+ > go run .\gatewayGoserver\gateway.go
