@@ -2,11 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"reflect"
-	"strconv"
 
 	"github.com/darvoid/slot/game"
 	"github.com/gorilla/mux"
@@ -21,7 +20,7 @@ func main() {
 	r.HandleFunc("/play", MiddlewareOptionsDefaultPolicy).Methods("OPTIONS")   //.Methods(http.MethodOptions)
 	r.HandleFunc("/exists", MiddlewareOptionsDefaultPolicy).Methods("OPTIONS") //.Methods(http.MethodOptions)
 
-	r.HandleFunc("/create/{totalJogadas}/{winChance}", CreateGameHandle).Methods("POST")
+	r.HandleFunc("/create", CreateGameHandle).Methods("POST")
 	r.HandleFunc("/play", PlayGameHandle).Methods("POST")
 	r.HandleFunc("/exists", GameExistsHandle).Methods("POST")
 
@@ -38,10 +37,20 @@ func MiddlewareOptionsDefaultPolicy(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+type NewGame struct {
+	Name string `json:"name"`
+	Age  uint8  `json:"age"`
+}
+
+type CreateGameRequest struct {
+	WinChance    int32 `json:"winChance"`
+	TotalJogadas int32 `json:"totalJogadas"`
+}
+
 func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	var conn *grpc.ClientConn
-	vars := mux.Vars(r) //path parameters
+	//vars := mux.Vars(r) //path parameters
 	//r.ParseForm() //query parameters
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
@@ -51,16 +60,18 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	//winChance, err := strconv.ParseInt(r.FormValue("winChance"), 10, 32)
-	winChance, err := strconv.ParseInt(vars["winChance"], 10, 32)
-	fmt.Println(winChance, err, reflect.TypeOf(winChance))
+	var p CreateGameRequest
 
-	//totalJogadas, err := strconv.ParseInt(r.FormValue("totalJogadas"), 10, 32)
-	totalJogadas, err := strconv.ParseInt(vars["totalJogadas"], 10, 32)
-	fmt.Println(totalJogadas, err, reflect.TypeOf(totalJogadas))
+	errr := json.NewDecoder(r.Body).Decode(&p)
+	if errr != nil {
+		http.Error(w, errr.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Printf("WinChance: %v\nTotalJogadas: %v\n", p.WinChance, p.TotalJogadas)
 
 	message := game.CreateGameRequest{
-		WinChance: int32(winChance), TotalJogadas: int32(totalJogadas),
+		WinChance: p.WinChance, TotalJogadas: p.TotalJogadas,
 	}
 
 	response, err := c.CreateGame(context.Background(), &message)
