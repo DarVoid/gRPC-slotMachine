@@ -17,13 +17,13 @@ func (s *Server) CreateGame(ctx context.Context, newGame *CreateGameRequest) (*N
 	log.Printf("Received message from client: WinChance:%v, TotalJogadas:%v\n", newGame.GetWinChance(), newGame.GetTotalJogadas())
 	slot, err := slotMachine.Setup(int(newGame.GetTotalJogadas()), int(newGame.GetWinChance()))
 	if err != nil {
-		log.Fatalf("Error creating Game: %v\n", err)
+		return nil, errors.New("error creating game")
 	}
 	fmt.Printf("%v\n", slot.CheckGameState())
 	return &NewGameReply{GameId: slot.ID}, nil
 }
 
-func (s *Server) PlayGame(ctx context.Context, play *PlayRequest) (*ResultPlayRequest, error) {
+func (s *Server) PlayGame(ctx context.Context, play *PlayRequest) (*ResultPlayReply, error) {
 	log.Printf("Received message from client: GameId: %v, Player Name:%v, Lucky Quote:%v\n", play.GetGameId(), play.GetName(), play.GetLuckyQuote())
 	now := time.Now()
 	_, found := slotMachine.Games[play.GetGameId()]
@@ -37,9 +37,8 @@ func (s *Server) PlayGame(ctx context.Context, play *PlayRequest) (*ResultPlayRe
 	if err != nil {
 		log.Printf("Error trying to play Game: %v\n", err)
 	}
-	fmt.Printf("%v\n", play)
 
-	return &ResultPlayRequest{GameId: play.GetGameId(), Name: play.GetName(), LuckyQuote: play.GetLuckyQuote(), Reward: rward}, nil
+	return &ResultPlayReply{GameId: play.GetGameId(), Name: play.GetName(), LuckyQuote: play.GetLuckyQuote(), Reward: rward}, nil
 }
 func (s *Server) GameExists(ctx context.Context, req *ShowGameRequest) (*GameExistsReply, error) {
 	log.Printf("Received message from client: GameId: %v\n", req.GetGameId())

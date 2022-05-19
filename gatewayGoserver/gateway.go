@@ -2,11 +2,10 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"reflect"
-	"strconv"
 
 	"github.com/darvoid/slot/game"
 	"github.com/gorilla/mux"
@@ -21,7 +20,7 @@ func main() {
 	r.HandleFunc("/play", MiddlewareOptionsDefaultPolicy).Methods("OPTIONS")   //.Methods(http.MethodOptions)
 	r.HandleFunc("/exists", MiddlewareOptionsDefaultPolicy).Methods("OPTIONS") //.Methods(http.MethodOptions)
 
-	r.HandleFunc("/create/{totalJogadas}/{winChance}", CreateGameHandle).Methods("POST")
+	r.HandleFunc("/create", CreateGameHandle).Methods("POST")
 	r.HandleFunc("/play", PlayGameHandle).Methods("POST")
 	r.HandleFunc("/exists", GameExistsHandle).Methods("POST")
 
@@ -41,7 +40,7 @@ func MiddlewareOptionsDefaultPolicy(w http.ResponseWriter, r *http.Request) {
 func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	var conn *grpc.ClientConn
-	vars := mux.Vars(r) //path parameters
+	//vars := mux.Vars(r) //path parameters
 	//r.ParseForm() //query parameters
 	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
@@ -51,32 +50,45 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	//winChance, err := strconv.ParseInt(r.FormValue("winChance"), 10, 32)
-	winChance, err := strconv.ParseInt(vars["winChance"], 10, 32)
-	fmt.Println(winChance, err, reflect.TypeOf(winChance))
+	var newGame game.CreateGameRequest
 
-	//totalJogadas, err := strconv.ParseInt(r.FormValue("totalJogadas"), 10, 32)
-	totalJogadas, err := strconv.ParseInt(vars["totalJogadas"], 10, 32)
-	fmt.Println(totalJogadas, err, reflect.TypeOf(totalJogadas))
-
-	message := game.CreateGameRequest{
-		WinChance: int32(winChance), TotalJogadas: int32(totalJogadas),
+	err = json.NewDecoder(r.Body).Decode(&newGame)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
 	}
 
-	response, err := c.CreateGame(context.Background(), &message)
+	fmt.Printf("WinChance: %v\nTotalJogadas: %v\n", newGame.WinChance, newGame.TotalJogadas)
+
+	response, err := c.CreateGame(context.Background(), &newGame)
 	if err != nil {
-		log.Fatalf("Error when creating game %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
+		return
 	}
 	log.Printf("Game with ID: %v created\n", response.GameId)
+	val, err := json.Marshal(response)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, response.String())
+	fmt.Fprintf(w, string(val))
 
 }
 func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
-	vars := mux.Vars(r)
 
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	var gameToPlay game.PlayRequest
+
+	err := json.NewDecoder(r.Body).Decode(&gameToPlay)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	conn, err = grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}
@@ -84,24 +96,31 @@ func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	message := game.PlayRequest{
-		GameId: vars["gameId"], Name: vars["name"], LuckyQuote: vars["luckyQuote"],
-	}
-
-	response, err := c.PlayGame(context.Background(), &message)
+	response, err := c.PlayGame(context.Background(), &gameToPlay)
 	if err != nil {
-		log.Fatalf("Error when playing game %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
 	}
 	log.Printf("Game with ID: %v played\n", response.GameId)
+	val, err := json.Marshal(response)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, response.String())
+	fmt.Fprintf(w, string(val))
 }
 
 func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
-	vars := mux.Vars(r)
+	var gameExists game.ShowGameRequest
 
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	err := json.NewDecoder(r.Body).Decode(&gameExists)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	conn, err = grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}
@@ -109,15 +128,16 @@ func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	message := game.ShowGameRequest{
-		GameId: vars["gameId"],
-	}
-
-	response, err := c.GameExists(context.Background(), &message)
+	response, err := c.GameExists(context.Background(), &gameExists)
 	if err != nil {
-		log.Fatalf("Error when verifying game %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
 	}
 	log.Printf("Game with ID: %v verified\n", response)
+	val, err := json.Marshal(response)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, response.String())
+	fmt.Fprintf(w, string(val))
 }

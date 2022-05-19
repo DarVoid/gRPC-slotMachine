@@ -41,8 +41,14 @@ func Setup(numberPlayers int, chanceWinning int) (*Game, error) {
 	if chanceWinning > 100 {
 		return nil, fmt.Errorf("learn math please")
 	}
+	if chanceWinning == 0 {
+		return nil, fmt.Errorf("no win game")
+	}
+	if numberPlayers == 0 {
+		return nil, fmt.Errorf("unplayable")
+	}
 	numero := 100
-	if numberPlayers >= 100 {
+	if numberPlayers >= 100 { //this can be commented if we don't wanna enforce min plays
 		numero = numberPlayers
 	}
 	game := Game{entries: make([]Person, numero)}

@@ -32,7 +32,7 @@ option go_package = "/game";
   }
   
   // The response message containing a boolean saying whether the game exists in memory or not
-  message ResultPlayRequest {
+  message ResultPlayReply {
     string gameId = 1;
     string name = 2;
     string luckyQuote = 3;
@@ -46,6 +46,6 @@ option go_package = "/game";
     // Check if a game exists
     rpc GameExists (ShowGameRequest) returns (GameExistsReply) {}
     // Play an existing game
-    rpc PlayGame (PlayRequest) returns (ResultPlayRequest) {}
+    rpc PlayGame (PlayRequest) returns (ResultPlayReply) {}
   }
   
