@@ -24,8 +24,10 @@ const _ = grpc.SupportPackageIsVersion7
 type GameServiceClient interface {
 	// Create a Game
 	CreateGame(ctx context.Context, in *CreateGameRequest, opts ...grpc.CallOption) (*NewGameReply, error)
+	// Check if a game exists
 	GameExists(ctx context.Context, in *ShowGameRequest, opts ...grpc.CallOption) (*GameExistsReply, error)
-	PlayGame(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*ResultPlayRequest, error)
+	// Play an existing game
+	PlayGame(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*ResultPlayReply, error)
 }
 
 type gameServiceClient struct {
@@ -54,8 +56,8 @@ func (c *gameServiceClient) GameExists(ctx context.Context, in *ShowGameRequest,
 	return out, nil
 }
 
-func (c *gameServiceClient) PlayGame(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*ResultPlayRequest, error) {
-	out := new(ResultPlayRequest)
+func (c *gameServiceClient) PlayGame(ctx context.Context, in *PlayRequest, opts ...grpc.CallOption) (*ResultPlayReply, error) {
+	out := new(ResultPlayReply)
 	err := c.cc.Invoke(ctx, "/GameService/PlayGame", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -69,8 +71,10 @@ func (c *gameServiceClient) PlayGame(ctx context.Context, in *PlayRequest, opts 
 type GameServiceServer interface {
 	// Create a Game
 	CreateGame(context.Context, *CreateGameRequest) (*NewGameReply, error)
+	// Check if a game exists
 	GameExists(context.Context, *ShowGameRequest) (*GameExistsReply, error)
-	PlayGame(context.Context, *PlayRequest) (*ResultPlayRequest, error)
+	// Play an existing game
+	PlayGame(context.Context, *PlayRequest) (*ResultPlayReply, error)
 }
 
 // UnimplementedGameServiceServer should be embedded to have forward compatible implementations.
@@ -83,7 +87,7 @@ func (UnimplementedGameServiceServer) CreateGame(context.Context, *CreateGameReq
 func (UnimplementedGameServiceServer) GameExists(context.Context, *ShowGameRequest) (*GameExistsReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GameExists not implemented")
 }
-func (UnimplementedGameServiceServer) PlayGame(context.Context, *PlayRequest) (*ResultPlayRequest, error) {
+func (UnimplementedGameServiceServer) PlayGame(context.Context, *PlayRequest) (*ResultPlayReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlayGame not implemented")
 }
 

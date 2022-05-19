@@ -37,16 +37,6 @@ func MiddlewareOptionsDefaultPolicy(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type NewGame struct {
-	Name string `json:"name"`
-	Age  uint8  `json:"age"`
-}
-
-type CreateGameRequest struct {
-	WinChance    int32 `json:"winChance"`
-	TotalJogadas int32 `json:"totalJogadas"`
-}
-
 func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	var conn *grpc.ClientConn
@@ -60,34 +50,45 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	var p CreateGameRequest
+	var newGame game.CreateGameRequest
 
-	errr := json.NewDecoder(r.Body).Decode(&p)
-	if errr != nil {
-		http.Error(w, errr.Error(), http.StatusBadRequest)
+	err = json.NewDecoder(r.Body).Decode(&newGame)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	fmt.Printf("WinChance: %v\nTotalJogadas: %v\n", p.WinChance, p.TotalJogadas)
+	fmt.Printf("WinChance: %v\nTotalJogadas: %v\n", newGame.WinChance, newGame.TotalJogadas)
 
-	message := game.CreateGameRequest{
-		WinChance: p.WinChance, TotalJogadas: p.TotalJogadas,
-	}
-
-	response, err := c.CreateGame(context.Background(), &message)
+	response, err := c.CreateGame(context.Background(), &newGame)
 	if err != nil {
-		log.Fatalf("Error when creating game %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
+		return
 	}
 	log.Printf("Game with ID: %v created\n", response.GameId)
+	val, err := json.Marshal(response)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, response.String())
+	fmt.Fprintf(w, string(val))
 
 }
 func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
-	vars := mux.Vars(r)
 
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	var gameToPlay game.PlayRequest
+
+	err := json.NewDecoder(r.Body).Decode(&gameToPlay)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	conn, err = grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}
@@ -95,24 +96,31 @@ func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	message := game.PlayRequest{
-		GameId: vars["gameId"], Name: vars["name"], LuckyQuote: vars["luckyQuote"],
-	}
-
-	response, err := c.PlayGame(context.Background(), &message)
+	response, err := c.PlayGame(context.Background(), &gameToPlay)
 	if err != nil {
-		log.Fatalf("Error when playing game %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
 	}
 	log.Printf("Game with ID: %v played\n", response.GameId)
+	val, err := json.Marshal(response)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, response.String())
+	fmt.Fprintf(w, string(val))
 }
 
 func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
-	vars := mux.Vars(r)
+	var gameExists game.ShowGameRequest
 
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	err := json.NewDecoder(r.Body).Decode(&gameExists)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	conn, err = grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}
@@ -120,15 +128,16 @@ func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 
 	c := game.NewGameServiceClient(conn)
 
-	message := game.ShowGameRequest{
-		GameId: vars["gameId"],
-	}
-
-	response, err := c.GameExists(context.Background(), &message)
+	response, err := c.GameExists(context.Background(), &gameExists)
 	if err != nil {
-		log.Fatalf("Error when verifying game %v", err)
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
 	}
 	log.Printf("Game with ID: %v verified\n", response)
+	val, err := json.Marshal(response)
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, response.String())
+	fmt.Fprintf(w, string(val))
 }
