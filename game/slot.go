@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/darvoid/slot/slotMachine"
+	"github.com/darvoid/gRPC-slotMachine/slotMachine"
 	"golang.org/x/net/context"
 )
 

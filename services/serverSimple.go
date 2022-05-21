@@ -5,7 +5,7 @@ import (
 	"log"
 	"net"
 
-	"github.com/darvoid/slot/game"
+	"github.com/darvoid/gRPC-slotMachine/game"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

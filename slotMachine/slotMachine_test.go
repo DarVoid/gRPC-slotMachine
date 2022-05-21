@@ -3,7 +3,7 @@ package slotMachine_test
 import (
 	"testing"
 
-	"github.com/darvoid/slot/slotMachine"
+	"github.com/darvoid/gRPC-slotMachine/slotMachine"
 )
 
 type indexTest struct {
