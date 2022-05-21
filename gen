@@ -1,1 +1,3 @@
 protoc --proto_path=src_dir --go_out=game --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mslot.proto=. slot.proto  
+
+protoc -I=src/app/services/protogen --proto_path=../../src_dir  --js_out=import_style=typescript:src/app/services/protogen --grpc-web_out=import_style=typescript,mode=grpcwebtext:src/app/services/protogen slot.proto 

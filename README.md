@@ -9,23 +9,34 @@ I'll first start by using an express server. and then a graphQL node server.
     > npm install 
 
 # Running the project:
-run gRPC server:´
-    windows
+run gRPC server:
+
+windows
+
     > go run .\services\serverSimple.go 
-    linux
+
+linux
+
     > go run services/serverSimple.go 
 
 ## run node gateway server:
-    windows
+windows
+
     > node .\server.js 
-    linux
+
+linux
+
     > node server.js 
 
 
 OR 
+
 ## run gorilla gateway server:
 
-    windows
+windows
+
     > go run .\gatewayGoserver\gateway.go
-    linux
+    
+linux
+
     > go run gatewayGoserver/gateway.go
