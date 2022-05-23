@@ -72,8 +72,14 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("Game with ID: %v created\n", response.GameId)
 	val, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("error marshalling")
+	}
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, string(val))
+	_, err = fmt.Fprintf(w, string(val))
+	if err != nil {
+		log.Printf("error writing to response")
+	}
 
 }
 func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
@@ -99,15 +105,21 @@ func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 	response, err := c.PlayGame(context.Background(), &gameToPlay)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
-		if err2 != nil {
+		_, err = fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err != nil {
 			log.Printf("error writing to response")
 		}
 	}
 	log.Printf("Game with ID: %v played\n", response.GameId)
 	val, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("error marshalling")
+	}
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, string(val))
+	_, err = fmt.Fprintf(w, string(val))
+	if err != nil {
+		log.Printf("error writing to response")
+	}
 }
 
 func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
@@ -122,7 +134,7 @@ func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	conn, err = grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
-		log.Fatalf("Could not connect%v\n", err)
+		fmt.Fprintf(w, "could not connect to service\n", err)
 	}
 	defer conn.Close()
 
@@ -138,6 +150,12 @@ func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 	}
 	log.Printf("Game with ID: %v verified\n", response)
 	val, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("error marshalling")
+	}
 	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, string(val))
+	_, err = fmt.Fprintf(w, string(val))
+	if err != nil {
+		log.Printf("error writing to response")
+	}
 }
