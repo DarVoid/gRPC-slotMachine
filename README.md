@@ -22,7 +22,7 @@ linux
 ## run node gateway server:
 windows
 
-    > node .\server.js 
+    > node .resExpress\server.js 
 
 linux
 
@@ -40,3 +40,15 @@ windows
 linux
 
     > go run gatewayGoserver/gateway.go
+
+OR 
+
+## run grapqhQL server server
+
+    windows
+
+    > node .\graphQL\index.js
+
+    linux
+
+    > node graphQL/index.js

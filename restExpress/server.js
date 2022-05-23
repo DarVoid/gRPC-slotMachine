@@ -1,6 +1,5 @@
 var express = require("express");
 var app = express();
-//const http = require("http");
 const client = require("./client");
 
 const host = "localhost";
@@ -41,7 +40,6 @@ app.post("/create/:totalJogadas/:winChance", (req, res) => {
             }
         }
     );
-    //res.send("Hello World!");
 
 });
 app.post("/play/:gameId/:nameGuy/:luckyQuote", (req, res) => {
