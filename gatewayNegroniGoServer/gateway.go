@@ -17,25 +17,23 @@ import (
 )
 
 func main() {
-	//mux
 
+	//create gorilla router instance
 	router := mux.NewRouter()
 
+	//create routes
 	router.HandleFunc("/create", CreateGameHandle).Methods("POST")
 	router.HandleFunc("/play", PlayGameHandle).Methods("POST")
 	router.HandleFunc("/exists", GameExistsHandle).Methods("POST")
-	//router
 
-	n := negroni.Classic() // Includes some default middlewares
-	wrapped := n.With()    // insert new middleware funcs here
-
-	wrapped.UseHandler(router)
-	recovery := negroni.NewRecovery()
-	recovery.PanicHandlerFunc = reportToSentry
-	wrapped.Use(recovery)
-	//n
-	handler := cors.Default().Handler(wrapped)
-	http.ListenAndServe(":8080", handler)
+	n := negroni.Classic()                     // new negroni instance with default middleware
+	wrapped := n.With()                        // add additional middleware funcs here
+	wrapped.UseHandler(router)                 // link gorilla router instance to negroni instance
+	recovery := negroni.NewRecovery()          // setup recovery strategy
+	recovery.PanicHandlerFunc = reportToSentry // setup function to be called in case of panic
+	wrapped.Use(recovery)                      // link negroni instance with recory strategy
+	handler := cors.Default().Handler(wrapped) // create http.handler with negroni instance
+	http.ListenAndServe(":8080", handler)      // serve
 }
 
 //report to Sentry
@@ -45,6 +43,8 @@ func reportToSentry(info *negroni.PanicInformation) {
 	fmt.Println("bad things happened")
 
 }
+
+// http method handlers
 
 func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 
