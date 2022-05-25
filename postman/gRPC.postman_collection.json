@@ -7,6 +7,40 @@
 	},
 	"item": [
 		{
+			"name": "Create Game node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "totalJogadas",
+							"value": "200",
+							"type": "text"
+						},
+						{
+							"key": "winChance",
+							"value": "20",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/create",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Game negroni",
 			"request": {
 				"method": "POST",
@@ -53,6 +87,40 @@
 			"response": []
 		},
 		{
+			"name": "play Game node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "gameId",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "name",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/play",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"play"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "CheckIfGameExists negroni",
 			"request": {
 				"method": "POST",
@@ -60,6 +128,35 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\r\n    \"gameId\": \"e6d2c9ff-f0e5-4d18-8ee7-2af3449cb104\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/exists",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"exists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckIfGameExists node",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "gameId",
+							"value": "",
+							"type": "text"
+						}
+					]
 				},
 				"url": {
 					"raw": "http://localhost:8080/exists",
