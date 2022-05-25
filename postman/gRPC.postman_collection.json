@@ -7,6 +7,103 @@
 	},
 	"item": [
 		{
+			"name": "failCreate",
+			"item": [
+				{
+					"name": "Create Game negroni fail1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalJogadasNon\": 200,\r\n    \"winchance\":20\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game negroni fail2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalJogadas\": 200,\r\n    \"winch2ance\":20\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game negroni fail3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalJogadas\": 200,\r\n    \"winchance\":20\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Game negroni fail4",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalJogadas\": 200,\r\n    \"winchance\":20\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/create",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Create Game node",
 			"request": {
 				"method": "POST",
