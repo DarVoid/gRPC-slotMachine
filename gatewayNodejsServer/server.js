@@ -39,10 +39,10 @@ app.post("/create", (req, res) => {
                 res.end();
             } else {
                 res.write(
-                    JSON.stringify({
-                        data: game,
-                        msg: "Successfully created a game.",
-                    })
+                    JSON.stringify(
+                       game
+                        
+                    )
                 );
                 res.end();
             }
@@ -54,13 +54,13 @@ app.post("/create", (req, res) => {
 app.post("/play", (req, res) => {
     console.log({
         gameId: req.body.gameId,
-        name: req.body.nameGuy,
+        name: req.body.name,
         luckyQuote: req.body.luckyQuote,
     })
     client.PlayGame(
         {
             gameId: req.body.gameId,
-            name: req.body.nameGuy,
+            name: req.body.name,
             luckyQuote: req.body.luckyQuote,
         },
         (error, response) => {
@@ -74,10 +74,7 @@ app.post("/play", (req, res) => {
                 res.end();
             } else {
                 res.write(
-                    JSON.stringify({
-                        data: response,
-                        msg: "Successfully played a game.",
-                    })
+                    JSON.stringify(response)
                 );
                 res.end();
             }
