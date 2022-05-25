@@ -28,6 +28,18 @@ linux
 
     > node gatewayNodejsServer/server.js 
 
+OR 
+
+## run negroni gateway server:
+
+windows
+
+    > go run .\gatewayNegroniGoServer\gateway.go
+    
+linux
+
+    > go run gatewayNegroniGoServer/gateway.go
+
 
 OR 
 
@@ -40,14 +52,3 @@ windows
 linux
 
     > go run gatewayGorillaGoServer/gateway.go
-OR 
-
-## run negroni gateway server:
-
-windows
-
-    > go run .\gatewayNegroniGoServer\gateway.go
-    
-linux
-
-    > go run gatewayNegroniGoServer/gateway.go
