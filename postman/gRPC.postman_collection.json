@@ -1,18 +1,19 @@
 {
 	"info": {
-		"_postman_id": "59f19e58-e311-4f7e-b87e-8d93dba4c75c",
-		"name": "QL+gRPC",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "0346ba7b-ea4a-40a7-8eb4-ca5edd1a2d25",
+		"name": "gRPC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6854734"
 	},
 	"item": [
 		{
-			"name": "Create Game gorilla",
+			"name": "Create Game negroni",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"totalJogadas\": 200,\r\n    \"winChance\": 20\r\n}"
+					"raw": "{\r\n    \"totalJogadas\": 200,\r\n    \"winchance\":20\r\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/create",
@@ -29,13 +30,13 @@
 			"response": []
 		},
 		{
-			"name": "play Game gorilla",
+			"name": "play Game negroni",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"gameId\": \"e6d2c9ff-f0e5-4d18-8ee7-2af3449cb104\",\r\n    \"name\": \"Jorge DUQu\",\r\n    \"lucky Quote\": \"yay\"\r\n    }"
+					"raw": "{\"gameId\":\r\n\"name\":\"Duque\"\r\n\"luckyQuote\":\"yay\"}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/play",
@@ -52,7 +53,7 @@
 			"response": []
 		},
 		{
-			"name": "CheckIfGameExists gorilla",
+			"name": "CheckIfGameExists negroni",
 			"request": {
 				"method": "POST",
 				"header": [],
