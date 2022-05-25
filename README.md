@@ -22,11 +22,11 @@ linux
 ## run node gateway server:
 windows
 
-    > node .\server.js 
+    > node .\gatewayNodejsServer\server.js 
 
 linux
 
-    > node server.js 
+    > node gatewayNodejsServer/server.js 
 
 
 OR 
