@@ -35,8 +35,19 @@ OR
 
 windows
 
-    > go run .\gatewayGoserver\gateway.go
+    > go run .\gatewayGorillaGoServer\gateway.go
     
 linux
 
-    > go run gatewayGoserver/gateway.go
+    > go run gatewayGorillaGoServer/gateway.go
+OR 
+
+## run negroni gateway server:
+
+windows
+
+    > go run .\gatewayNegroniGoServer\gateway.go
+    
+linux
+
+    > go run gatewayNegroniGoServer/gateway.go
