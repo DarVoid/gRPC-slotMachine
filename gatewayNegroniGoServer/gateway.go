@@ -119,7 +119,7 @@ func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 			log.Printf("error writing to response")
 		}
 	}
-	log.Printf("Game with ID: %v played\n", response.GameId)
+	log.Printf("Game with ID: %v played\n", gameToPlay.GetGameId())
 	val, err := json.Marshal(response)
 	if err != nil {
 		log.Printf("error marshalling")
@@ -157,7 +157,7 @@ func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 			log.Printf("error writing to response")
 		}
 	}
-	log.Printf("Game with ID: %v verified\n", response)
+	log.Printf("Game with ID: %v verified\n", gameExists.GetGameId())
 	val, err := json.Marshal(response)
 	if err != nil {
 		log.Printf("error marshalling")
