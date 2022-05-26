@@ -10,13 +10,13 @@ import (
 	"gorm.io/gorm"
 )
 
-func main() {
+func ConnectToSQLServer(user, password, ip, port string) *gorm.DB {
 
 	query := url.Values{}
 	u := &url.URL{
 		Scheme: "sqlserver",
-		User:   url.UserPassword("<user>", "<password>"),
-		Host:   fmt.Sprintf("%s:%s", "<hostIp>", "<hostport>"),
+		User:   url.UserPassword(user, password),
+		Host:   fmt.Sprintf("%s:%s", ip, port),
 		// Path:  instance, // if connecting to an instance instead of a port
 		RawQuery: query.Encode(),
 	}
@@ -30,12 +30,14 @@ func main() {
 	if err != nil {
 		fmt.Println(err)
 	}
-	var result uRecord
-	gormDB.Table("<tablename>").Select("*").First(&result) //.Scan(&result)
-	fmt.Println(result)
+	return gormDB
+
+	//var result uRecord
+	//.Table("<tablename>").Select("*").First(&result) //.Scan(&result)
+	//fmt.Println(result)
 }
 
-type uRecord struct {
+/*type uRecord struct {
 	ID     int    `gorm:"column:Id"`
 	UserId string `gorm:"column:AspNetUserId"`
-}
+}*/
