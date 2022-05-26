@@ -1,0 +1,17 @@
+syntax = "proto3";
+option go_package = "/chat";
+
+
+message MessageRequest{
+  string namePerson = 1;
+  string message = 2;
+}
+
+message MessageReply{
+  string namePerson = 1;
+  string message = 2;
+}
+
+service ChatService {
+  rpc SendAndReceiveMessages(stream MessageRequest) returns(stream MessageReply){}
+}

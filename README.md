@@ -2,7 +2,7 @@
 
 the aim of this project was to use gRPC to deal with all the logic and having a frontend facing gateway to deal with http requests.
 
-I'll first start by using an express server. and then a graphQL node server.
+I'll first start by using an express server and then explore other options
 
 # Install node packages
 
@@ -10,8 +10,45 @@ I'll first start by using an express server. and then a graphQL node server.
 
 # Running the project:
 run gRPC server:
- > go run .\services\serverSimple.go 
 
-run node gateway server:
+windows
 
- > node .\server.js 
+    > go run .\services\serverSimple.go 
+
+linux
+
+    > go run services/serverSimple.go 
+
+## run node gateway server:
+windows
+
+    > node .\gatewayNodejsServer\server.js 
+
+linux
+
+    > node gatewayNodejsServer/server.js 
+
+OR 
+
+## run negroni gateway server:
+
+windows
+
+    > go run .\gatewayNegroniGoServer\gateway.go
+    
+linux
+
+    > go run gatewayNegroniGoServer/gateway.go
+
+
+OR 
+
+## run gorilla gateway server:
+
+windows
+
+    > go run .\gatewayGorillaGoServer\gateway.go
+    
+linux
+
+    > go run gatewayGorillaGoServer/gateway.go

@@ -4,7 +4,7 @@ var app = express();
 const client = require("./client");
 
 const host = "localhost";
-const port = 8000;
+const port = 8080;
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
@@ -15,13 +15,20 @@ app.use(function (req, res, next) {
     next();
 });
 
+app.use(
+    express.json()
+)
+app.use(    
+    express.urlencoded({ extended: true })
+)
 
-app.post("/create/:totalJogadas/:winChance", (req, res) => {
 
+app.post("/create", (req, res) => {
+    console.log(req.body)
     client.CreateGame(
         {
-            totalJogadas: req.params['totalJogadas'],
-            winChance: req.params['winChance'],
+            totalJogadas: req.body.totalJogadas,
+            winChance: req.body.winChance,
         },
         (error, game) => {
             if (error) {
@@ -32,10 +39,10 @@ app.post("/create/:totalJogadas/:winChance", (req, res) => {
                 res.end();
             } else {
                 res.write(
-                    JSON.stringify({
-                        data: game,
-                        msg: "Successfully created a game.",
-                    })
+                    JSON.stringify(
+                       game
+                        
+                    )
                 );
                 res.end();
             }
@@ -44,17 +51,17 @@ app.post("/create/:totalJogadas/:winChance", (req, res) => {
     //res.send("Hello World!");
 
 });
-app.post("/play/:gameId/:nameGuy/:luckyQuote", (req, res) => {
+app.post("/play", (req, res) => {
     console.log({
-        gameId: req.params['gameId'],
-        name: req.params['nameGuy'],
-        luckyQuote: req.params['luckyQuote'],
+        gameId: req.body.gameId,
+        name: req.body.name,
+        luckyQuote: req.body.luckyQuote,
     })
     client.PlayGame(
         {
-            gameId: req.params['gameId'],
-            name: req.params['nameGuy'],
-            luckyQuote: req.params['luckyQuote'],
+            gameId: req.body.gameId,
+            name: req.body.name,
+            luckyQuote: req.body.luckyQuote,
         },
         (error, response) => {
             if (error) {
@@ -67,10 +74,7 @@ app.post("/play/:gameId/:nameGuy/:luckyQuote", (req, res) => {
                 res.end();
             } else {
                 res.write(
-                    JSON.stringify({
-                        data: response,
-                        msg: "Successfully played a game.",
-                    })
+                    JSON.stringify(response)
                 );
                 res.end();
             }
@@ -79,10 +83,10 @@ app.post("/play/:gameId/:nameGuy/:luckyQuote", (req, res) => {
 
 });
 
-app.post("/exists/:gameId", (req, res) => {
+app.post("/exists", (req, res) => {
     client.GameExists(
         {
-            gameId: req.params['gameId'],
+            gameId: reqreq.body.gameId,
         },
         (error, response) => {
             if (error) {

@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/darvoid/slot/game"
+	"github.com/darvoid/gRPC-slotMachine/game"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
