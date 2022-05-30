@@ -38,6 +38,6 @@ func ConnectToSQLServer(user, password, ip, port string) *gorm.DB {
 }
 
 /*type uRecord struct {
-	ID     int    `gorm:"column:Id"`
-	UserId string `gorm:"column:AspNetUserId"`
+	ID     int    `gorm:"column:Id";json:"id"`
+	UserId string `gorm:"column:AspNetUserId";json:"userId"`
 }*/

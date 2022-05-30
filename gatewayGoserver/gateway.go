@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"strconv"
 
-	"github.com/darvoid/slot/game"
+	"github.com/darvoid/gRPC-slotMachine/game"
 	"github.com/gorilla/mux"
 	"google.golang.org/grpc"
 )
