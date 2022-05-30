@@ -27,6 +27,7 @@ func main() {
 	router.HandleFunc("/play", PlayGameHandle).Methods("POST")
 	router.HandleFunc("/exists", GameExistsHandle).Methods("POST")
 	router.HandleFunc("/retrieve-session-data", HandleRetrieval).Methods("POST")
+	router.HandleFunc("/retrieve-session-data", SetCORHeader).Methods("OPTIONS")
 
 	n := negroni.Classic()                     // new negroni instance with default middleware
 	wrapped := n.With()                        // add additional middleware funcs here
@@ -34,8 +35,16 @@ func main() {
 	recovery := negroni.NewRecovery()          // setup recovery strategy
 	recovery.PanicHandlerFunc = reportToSentry // setup function to be called in case of panic
 	wrapped.Use(recovery)                      // link negroni instance with recory strategy
-	handler := cors.Default().Handler(wrapped) // create http.handler with negroni instance
-	http.ListenAndServe(":8080", handler)      // serve
+	handler := cors.New(cors.Options{
+		AllowedOrigins:     []string{"http://localhost:4200"},
+		AllowedMethods:     []string{"POST, GET, OPTIONS, PUT, DELETE"},
+		AllowedHeaders:     []string{"Accept, Accept-Language,Authorization, Content-Type, YourOwnHeader"},
+		AllowCredentials:   true,
+		OptionsPassthrough: true,
+		// Enable Debugging for testing, consider disabling in production
+		Debug: true,
+	}).Handler(wrapped) // create http.handler with negroni instance
+	http.ListenAndServe(":8080", handler) // serve
 }
 
 //report to Sentry
@@ -43,6 +52,25 @@ func main() {
 func reportToSentry(info *negroni.PanicInformation) {
 
 	fmt.Println("bad things happened")
+
+}
+
+func SetCORHeader(w http.ResponseWriter, r *http.Request) {
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Language,Authorization, Content-Type, YourOwnHeader")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+	}
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	// https://github.com/gorilla/mux/blob/master/example_cors_method_middleware_test.go
+	if r.Method == http.MethodOptions {
+		return
+	}
 
 }
 
@@ -57,11 +85,20 @@ type userSessionRequest struct {
 // http method handlers
 
 func HandleRetrieval(w http.ResponseWriter, r *http.Request) {
-
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Accept-Language,Authorization, Content-Type, YourOwnHeader")
+		w.Header().Set("Access-Control-Allow-Credentials", "true")
+	}
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		return
+	}
 	var conn *grpc.ClientConn
 	//vars := mux.Vars(r) //path parameters
 	//r.ParseForm() //query parameters
-	conn, err := grpc.Dial(":9001", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}

@@ -1,6 +1,7 @@
 package gameVitaeDashboard
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/darvoid/gRPC-slotMachine/conSQLServer"
@@ -20,17 +21,33 @@ func (s *Server) RetrieveSessionData(ctx context.Context, req *SessionParameterR
 	if err != nil {
 		return nil, err
 	}
-	var sessions []*sessionRecord
+	var sessions []sessionRecord
 
-	orderBy := req.GetOrderBy()
-	query := database.Table("Common.Session").Select("*").Order(orderBy)
-	query_limited := query.Offset(int(req.GetPageIndex())).Limit(int(req.GetPageSize()))
-	query_limited.Find(&sessions)
-
+	orderBy := req.GetOrderBy() //to do: concatenar com req get asc
+	query := database.Table("Common.Session").Select("").Order(orderBy)
+	//query_limited := query.Offset(int(req.GetPageIndex())).Limit(int(req.GetPageSize()))
+	query.Scan(&sessions)
+	//b, err := json.Marshal(sessions)
+	if err != nil {
+		fmt.Println(err)
+	}
 	num := query.RowsAffected
-	var result []*SessionRecordSet
-	fmt.Printf("%v\n", sessions)
+	result := make([]*SessionRecordSet, 0)
+	for i, val := range sessions {
+		json.Marshal(num)
+		json.Marshal(i)
+		fmt.Println(i)
+		fmt.Println(num)
+		b := &SessionRecordSet{
+			Id:       val.Id,
+			User:     val.User,
+			GameId:   val.GameId,
+			DeviceId: val.DeviceId,
+			Date:     val.Date,
+			ClinicId: val.ClinicId}
 
+		result = append(result, b)
+	}
 	return &SessionParameterReply{
 		Data:      result,
 		TotalRows: num,

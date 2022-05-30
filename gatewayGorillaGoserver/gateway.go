@@ -31,6 +31,9 @@ func main() {
 func MiddlewareOptionsDefaultPolicy(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS,PUT")
+	w.Header().Set("Access-Control-Allow-Headers", "Origin, Content-Type")
+
 	// https://github.com/gorilla/mux/blob/master/example_cors_method_middleware_test.go
 	if r.Method == http.MethodOptions {
 		return
