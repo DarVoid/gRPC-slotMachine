@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConnectToSQLServer(user, password, ip, port string) *gorm.DB {
+func ConnectToSQLServer(user, password, ip, port string) (*gorm.DB, error) {
 
 	query := url.Values{}
 	u := &url.URL{
@@ -22,15 +22,15 @@ func ConnectToSQLServer(user, password, ip, port string) *gorm.DB {
 	}
 	sqlDB, err := sql.Open("sqlserver", u.String())
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
 	gormDB, err := gorm.Open(sqlserver.New(sqlserver.Config{
 		Conn: sqlDB,
 	}), &gorm.Config{})
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	return gormDB
+	return gormDB, nil
 
 	//var result uRecord
 	//.Table("<tablename>").Select("*").First(&result) //.Scan(&result)

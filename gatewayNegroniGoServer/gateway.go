@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/darvoid/gRPC-slotMachine/game"
+	"github.com/darvoid/gRPC-slotMachine/gameVitaeDashboard"
 
 	"google.golang.org/grpc"
 
@@ -25,6 +26,7 @@ func main() {
 	router.HandleFunc("/create", CreateGameHandle).Methods("POST")
 	router.HandleFunc("/play", PlayGameHandle).Methods("POST")
 	router.HandleFunc("/exists", GameExistsHandle).Methods("POST")
+	router.HandleFunc("/retrieve-session-data", HandleRetrieval).Methods("POST")
 
 	n := negroni.Classic()                     // new negroni instance with default middleware
 	wrapped := n.With()                        // add additional middleware funcs here
@@ -44,7 +46,65 @@ func reportToSentry(info *negroni.PanicInformation) {
 
 }
 
+type userSessionRequest struct {
+	User      string
+	PageIndex int64
+	PageSize  int64
+	OrderBy   string
+	Asc       bool
+}
+
 // http method handlers
+
+func HandleRetrieval(w http.ResponseWriter, r *http.Request) {
+
+	var conn *grpc.ClientConn
+	//vars := mux.Vars(r) //path parameters
+	//r.ParseForm() //query parameters
+	conn, err := grpc.Dial(":9001", grpc.WithInsecure())
+	if err != nil {
+		log.Fatalf("Could not connect%v\n", err)
+	}
+	defer conn.Close()
+
+	c := gameVitaeDashboard.NewGameVitaeServiceClient(conn)
+	var req userSessionRequest
+	err = json.NewDecoder(r.Body).Decode(&req)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	fmt.Printf("Request: %v\n", req)
+	response, err := c.RetrieveSessionData(context.Background(), &gameVitaeDashboard.SessionParameterRequest{
+		User: req.User,
+
+		PageIndex: req.PageIndex,
+		PageSize:  req.PageSize,
+		OrderBy:   req.OrderBy,
+		Asc:       req.Asc,
+	})
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		_, err2 := fmt.Fprintf(w, fmt.Sprintf(err.Error(), http.StatusBadRequest))
+		if err2 != nil {
+			log.Printf("error writing to response")
+		}
+		return
+	}
+	log.Printf("Successfully retrieved data for user: %v\n", req.User)
+	val, err := json.Marshal(response)
+	if err != nil {
+		log.Printf("error marshalling")
+	}
+	w.WriteHeader(http.StatusOK)
+	_, err = fmt.Fprintf(w, string(val))
+	if err != nil {
+		log.Printf("error writing to response")
+	}
+
+}
 
 func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 

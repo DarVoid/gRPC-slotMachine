@@ -178,7 +178,7 @@ type GameExistsReply struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Exists bool `protobuf:"varint,1,opt,name=exists,proto3" json:"exists"`
+	Exists bool `protobuf:"varint,1,opt,name=exists,proto3" json:"exists,omitempty"`
 }
 
 func (x *GameExistsReply) Reset() {
@@ -293,7 +293,7 @@ type ResultPlayReply struct {
 	GameId     string `protobuf:"bytes,1,opt,name=gameId,proto3" json:"gameId,omitempty"`
 	Name       string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	LuckyQuote string `protobuf:"bytes,3,opt,name=luckyQuote,proto3" json:"luckyQuote,omitempty"`
-	Reward     bool   `protobuf:"varint,4,opt,name=reward,proto3" json:"reward"`
+	Reward     bool   `protobuf:"varint,4,opt,name=reward,proto3" json:"reward,omitempty"`
 }
 
 func (x *ResultPlayReply) Reset() {

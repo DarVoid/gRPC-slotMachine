@@ -1,0 +1,39 @@
+syntax = "proto3";
+option go_package = "/gameVitaeDashboard";
+
+
+  // parameter retrieve data from  common.Session
+  message SessionParameterRequest {
+    string user = 1;
+    int64 pageIndex = 2;
+    int64 pageSize = 3;
+
+    string orderBy = 4;
+    bool asc = 5;
+  }
+   // parameter retrieve data from  common.Session
+  message SessionParameterReply {
+    repeated sessionRecordSet data = 1;
+    int64 totalRows = 2;
+  }
+  
+  message sessionRecordSet{
+    int64 id = 1;
+    string user = 2;
+    int64 gameId = 3;
+    int64 deviceId = 4;
+    string date = 5;
+    int64 clinicId = 6;
+    string rowVersion = 7;
+  }
+  
+  message paginationParameters{
+      
+  }
+
+
+  service GameVitaeService {
+    // Create a Game
+    rpc RetrieveSessionData (SessionParameterRequest) returns (SessionParameterReply) {}
+  }
+  
