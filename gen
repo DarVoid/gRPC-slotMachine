@@ -1,5 +1,7 @@
 protoc --proto_path=src_dir --go_out=. --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mgamevitaedashboardproto.proto=. gamevitaedashboard.proto
 
+protoc --proto_path=src_dir --go_out=. --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mgamevitaedashboardproto.proto=. slot.proto
+
 remember to take out omitempty tag in booleans
 
 
