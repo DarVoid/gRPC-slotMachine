@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	"github.com/darvoid/gRPC-slotMachine/conSQLServer"
+	"github.com/darvoid/gRPC-slotMachine/connectDB"
 	"golang.org/x/net/context"
 )
 
@@ -12,14 +12,9 @@ type Server struct {
 }
 
 func (s *Server) RetrieveSessionData(ctx context.Context, req *SessionParameterRequest) (*SessionParameterReply, error) {
-
-	user := "<user>"
-	password := "<password>"
-	ip := "<ip>"
-	port := "<port>"
-	database, err := conSQLServer.ConnectToSQLServer(user, password, ip, port)
+	database, err := connectDB.Connect()
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
 	}
 	var sessions []sessionRecord
 
