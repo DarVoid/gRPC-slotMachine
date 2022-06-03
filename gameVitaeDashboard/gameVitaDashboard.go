@@ -13,6 +13,7 @@ type Server struct {
 
 func (s *Server) RetrieveSessionData(ctx context.Context, req *SessionParameterRequest) (*SessionParameterReply, error) {
 	database, err := connectDB.Connect()
+
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -50,11 +51,11 @@ func (s *Server) RetrieveSessionData(ctx context.Context, req *SessionParameterR
 }
 
 type sessionRecord struct { //table structure
-	Id         int64  `gorm:"column:Id";json:"id"`
-	User       string `gorm:"column:AspNetUserId";json:"userId"`
-	GameId     int64  `gorm:"column:GameId";json:"gameId"`
-	DeviceId   int64  `gorm:"column:DeviceId";json:"deviceId"`
-	Date       string `gorm:"column:SessionDt";json:"date"`
-	ClinicId   int64  `gorm:"column:ClinicHistoryId";json:"clinicId"`
-	RowVersion string `gorm:"column:RowVersion";json:"rowVersion"`
+	Id         int64  `gorm:"column:Id" json:"id"`
+	User       string `gorm:"column:AspNetUserId" json:"userId"`
+	GameId     int64  `gorm:"column:GameId" json:"gameId"`
+	DeviceId   int64  `gorm:"column:DeviceId" json:"deviceId"`
+	Date       string `gorm:"column:SessionDt" json:"date"`
+	ClinicId   int64  `gorm:"column:ClinicHistoryId" json:"clinicId"`
+	RowVersion string `gorm:"column:RowVersion" json:"rowVersion"`
 }
