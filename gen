@@ -1,4 +1,4 @@
-protoc --proto_path=src_dir --go_out=game --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mslot.proto=. slot.proto  
+protoc --proto_path=src_dir --go_out=. --go-grpc_out=require_unimplemented_servers=false:. --go_opt=Mgamevitaedashboardproto.proto=. gamevitaedashboard.proto
 
 remember to take out omitempty tag in booleans
 
