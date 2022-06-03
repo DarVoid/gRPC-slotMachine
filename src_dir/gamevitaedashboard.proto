@@ -26,11 +26,6 @@ option go_package = "/gameVitaeDashboard";
     int64 clinicId = 6;
     string rowVersion = 7;
   }
-  
-  message paginationParameters{
-      
-  }
-
 
   service GameVitaeService {
     // Create a Game
