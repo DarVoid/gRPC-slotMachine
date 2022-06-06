@@ -148,7 +148,7 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
 	//vars := mux.Vars(r) //path parameters
 	//r.ParseForm() //query parameters
-	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9001", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}

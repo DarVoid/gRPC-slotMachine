@@ -13,11 +13,11 @@ run gRPC server:
 
 windows
 
-    > go run .\services\serverSimple.go 
+    > go run .\gameService\gameServiceServer.go 
 
 linux
 
-    > go run services/serverSimple.go 
+    > go run gameService/gameServiceServer.go 
 
 ## run node gateway server:
 windows
