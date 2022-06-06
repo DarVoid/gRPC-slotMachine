@@ -98,7 +98,7 @@ func HandleRetrieval(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
 	//vars := mux.Vars(r) //path parameters
 	//r.ParseForm() //query parameters
-	conn, err := grpc.Dial(":9001", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}
@@ -148,7 +148,7 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	var conn *grpc.ClientConn
 	//vars := mux.Vars(r) //path parameters
 	//r.ParseForm() //query parameters
-	conn, err := grpc.Dial(":9001", grpc.WithInsecure())
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("Could not connect%v\n", err)
 	}
@@ -181,6 +181,7 @@ func CreateGameHandle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("error marshalling")
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	_, err = fmt.Fprintf(w, string(val))
 	if err != nil {
@@ -221,7 +222,9 @@ func PlayGameHandle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("error marshalling")
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+
 	_, err = fmt.Fprintf(w, string(val))
 	if err != nil {
 		log.Printf("error writing to response")
@@ -259,7 +262,9 @@ func GameExistsHandle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Printf("error marshalling")
 	}
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
+
 	_, err = fmt.Fprintf(w, string(val))
 	if err != nil {
 		log.Printf("error writing to response")
