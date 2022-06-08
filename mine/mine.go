@@ -12,17 +12,21 @@ import (
 )
 
 func main() {
+	//creates a block
 	block := bloco{
 		"Jorge",
 		time.Now(),
 		0,
 	}
+	//creates buffered channel only takes 1 value will serve as sync mechanism
 	blocos := make(chan bloco, 1)
+
+	//initializes go routines each mining their own random solution
 	for i := 0; i < 100; i++ {
 		go mine(block, blocos)
 
 	}
-
+	//this line blocks until 1 result is found
 	validateBloco(<-blocos)
 }
 
@@ -49,7 +53,7 @@ func validateBloco(block bloco) bool {
 	}
 	hash := sha256.Sum256([]byte(val))
 	fmt.Println(base64.StdEncoding.EncodeToString((hash[:])))
-	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "00")
+	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "000")
 }
 
 type bloco struct {
