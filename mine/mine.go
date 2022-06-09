@@ -32,16 +32,25 @@ func main() {
 
 //mines block
 func mine(block bloco, blocks chan bloco) {
-
+	blockNew := bloco{
+		Name:  block.Name,
+		Date:  block.Date,
+		Nonce: 0,
+	}
 	for {
 		nBig, err := rand.Int(rand.Reader, big.NewInt(1000000))
 		if err != nil {
 			fmt.Println(err)
 		}
-		block.Nonce = nBig.Int64()
-		fmt.Println(block)
-		if validateBloco(block) {
-			blocks <- block
+		blockNew.Nonce = nBig.Int64()
+		blocojson, err := json.Marshal(blockNew)
+		if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(string(blocojson))
+		if validateBloco(blockNew) {
+
+			blocks <- blockNew
 		}
 	}
 
@@ -49,17 +58,19 @@ func mine(block bloco, blocks chan bloco) {
 
 //validates if block obeys dificulty
 func validateBloco(block bloco) bool {
-	val, err := json.Marshal(block)
+
+	blocojson, err := json.Marshal(block)
 	if err != nil {
 		fmt.Println(err)
 	}
-	hash := sha256.Sum256([]byte(val))
+	fmt.Println(string(blocojson))
+	hash := sha256.Sum256([]byte(blocojson))
 	fmt.Println(base64.StdEncoding.EncodeToString((hash[:]))) //just to be human readable
-	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "000")
+	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "00")
 }
 
 type bloco struct {
-	name  string    "json:Name"
-	date  time.Time "json:Date"
+	Name  string    "json:Name"
+	Date  time.Time "json:Date"
 	Nonce int64     "json:Nonce"
 }
