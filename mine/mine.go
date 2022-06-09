@@ -30,6 +30,7 @@ func main() {
 	validateBloco(<-blocos)
 }
 
+//mines block
 func mine(block bloco, blocks chan bloco) {
 
 	for {
@@ -46,13 +47,14 @@ func mine(block bloco, blocks chan bloco) {
 
 }
 
+//validates if block obeys dificulty
 func validateBloco(block bloco) bool {
 	val, err := json.Marshal(block)
 	if err != nil {
 		fmt.Println(err)
 	}
 	hash := sha256.Sum256([]byte(val))
-	fmt.Println(base64.StdEncoding.EncodeToString((hash[:])))
+	fmt.Println(base64.StdEncoding.EncodeToString((hash[:]))) //just to be human readable
 	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "000")
 }
 
