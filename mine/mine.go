@@ -66,7 +66,7 @@ func validateBloco(block bloco) bool {
 	fmt.Println(string(blocojson))
 	hash := sha256.Sum256([]byte(blocojson))
 	fmt.Println(base64.StdEncoding.EncodeToString((hash[:]))) //just to be human readable
-	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "00")
+	return strings.HasPrefix(base64.StdEncoding.EncodeToString((hash[:])), "000")
 }
 
 type bloco struct {

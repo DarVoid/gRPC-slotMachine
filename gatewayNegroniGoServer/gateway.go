@@ -27,7 +27,7 @@ func main() {
 	router.HandleFunc("/play", PlayGameHandle).Methods("POST")
 	router.HandleFunc("/exists", GameExistsHandle).Methods("POST")
 	router.HandleFunc("/retrieve-session-data", HandleRetrieval).Methods("POST")
-	router.HandleFunc("/retrieve-session-data", SetCORHeader).Methods("OPTIONS")
+	router.HandleFunc("/", SetCORHeader).Methods("OPTIONS") //default route in case of no match
 
 	n := negroni.Classic()                     // new negroni instance with default middleware
 	wrapped := n.With()                        // add additional middleware funcs here
