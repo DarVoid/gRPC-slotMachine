@@ -52,3 +52,10 @@ windows
 linux
 
     > go run gatewayGorillaGoServer/gateway.go
+
+
+## install godocs so you can read the dank documentation
+
+
+
+    > go install golang.org/x/tools/cmd/godoc@latest

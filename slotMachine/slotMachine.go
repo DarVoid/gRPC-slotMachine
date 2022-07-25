@@ -1,4 +1,7 @@
+//this package is a demo for handling in-memory rigged slot machine logic
 package slotMachine
+
+//package which handles game logic of rigged slot machine
 
 import (
 	"crypto/rand"
@@ -12,21 +15,21 @@ import (
 
 //instances of players
 type Person struct {
-	Name       string
-	LastPlayed time.Time
-	LuckyQuote string
-	reward     bool
-	Resume     string
+	Name       string    //name of the player for each play
+	LastPlayed time.Time //date of each play
+	LuckyQuote string    //lucky quote for each play
+	reward     bool      //saves reward true/false
+	Resume     string    //base64 resume string of all the other data
 }
 
-//pool of rewards
+//Game with of rewards
 type Game struct {
 	entries   []Person
 	jogadas   int
 	perc      int
 	totalWins int
 	last      int
-	ID        string
+	ID        string // Id of game
 }
 
 //returns some of the fields as string
@@ -34,6 +37,7 @@ func (p Person) ToString() string {
 	return fmt.Sprintf("Name: %v\nLast Played: %v\nLuckyQuote: %v\n", p.Name, p.LastPlayed, p.LuckyQuote)
 }
 
+//in memory array of games
 var Games = make(map[string]*Game)
 
 //starts a new game with no players
@@ -104,6 +108,7 @@ func (g Game) GetTotalVictories() int {
 	return g.totalWins
 }
 
+//returns an array of all games
 func ListGamesInMemory() ([]Game, error) {
 
 	gameArray := []Game{}
@@ -115,6 +120,7 @@ func ListGamesInMemory() ([]Game, error) {
 	return gameArray, nil
 }
 
+//returns an in-memory game with given id
 func ShowGame(id string) (Game, error) {
 
 	game := Games[id]
