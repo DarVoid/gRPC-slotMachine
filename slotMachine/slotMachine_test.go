@@ -1,6 +1,7 @@
 package slotMachine_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/darvoid/gRPC-slotMachine/slotMachine"
@@ -19,8 +20,14 @@ var indexTests = []indexTest{
 	{300, 20, "Total de Jogadas: 300\nWinning chance: 20\nTotal Wins: 0\nLast Element: 0\n", "setup 20%"},
 }
 
-//tests Game startup
-func TestSetup(t *testing.T) {
+func SlotMachineSetup_example() {
+
+	fmt.Printf("2")
+	// Output:
+	// 2
+}
+
+func TestSetupPrint(t *testing.T) {
 	for _, test := range indexTests {
 		t.Run(test.name, func(t *testing.T) {
 
